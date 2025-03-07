@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <script src="https://browser.sentry-cdn.com/9.1.0/bundle.tracing.min.js"
+        integrity="sha384-MCeGoX8VPkitB3OcF9YprViry6xHPhBleDzXdwCqUvHJdrf7g0DjOGvrhIzpsyKp"
+        crossorigin="anonymous"></script>
+
+    <script>
+        Sentry.init({
+            dsn: "https://5d6561e7ef76c4d93eb5dc8a72d582af@bugpilot.now.gg/6",
+            tracesSampleRate: 0, // Do not capture transactions
+            normalizeDepth: 11,
+        });
+        var refreshing = false;
+        window.addEventListener("click", function (e) {
+            if (e.target.id === "refresh" && !refreshing) {
+                e.target.classList.add("refreshing");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 5000)
+            }
+        });
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code') || 'FAILURE';
+
+            Sentry.captureException(new Error(`HttpStatus ${code} on ${window.location.href.split('?')[0]}`), {
+                level: "fatal",
+                tags: {
+                    page: "https://now.gg/error-page/internal-error.html",
+                    type: "internal-error",
+                },
+                extra: {
+                    uaId: localStorage.getItem("fe_uaId") || 'NA',
+                    uaSessionId: sessionStorage.getItem("fe_uaSessionId") || 'NA',
+                    referrer: document.referrer,
+                    href: window.location.href,
+                    lang: navigator.language,
+                    urlParams: urlParams
+                },
+            });
+        } catch (e) { }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
+        fetchpriority="low" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.now.gg/apps-content/common/img/favicon.ico">
+    <style>
+        a,
+        button,
+        input,
+        select,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            text-decoration: none;
+            appearance: none;
+            background: none;
+
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html body {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .body * {
+            box-sizing: border-box;
+        }
+
+        .body {
+            display: flex;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            background:
+                linear-gradient(to left, #0b0223, #0b0223);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader {
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: none;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .refreshing {
+            cursor: not-allowed;
+            opacity: 90%;
+        }
+
+        .refreshing .loader {
+            display: block;
+        }
+
+        .footer-information-bar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 64px;
+            position: absolute;
+            padding: 0 50px;
+            bottom: 0px;
+            transform-origin: 0 0;
+            transform: rotate(0deg) scale(1, 1);
+        }
+
+        .full-logo {
+            flex-shrink: 0;
+            width: 110.6px;
+            height: 28px;
+            position: relative;
+            transform-origin: 0 0;
+            transform: rotate(0deg) scale(1, 1);
+            overflow: hidden;
+        }
+
+        .full-logo2 {
+            position: absolute;
+            right: 9.39%;
+            left: 0%;
+            width: 90.61%;
+            bottom: 0%;
+            top: 0%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .logo-art {
+            position: absolute;
+            right: 70.73%;
+            left: 0%;
+            width: 29.27%;
+            bottom: 0%;
+            top: 0%;
+            height: 100%;
+        }
+
+        .shape {
+            height: auto;
+            position: absolute;
+            left: 0px;
+            top: 3.79px;
+            overflow: visible;
+        }
+
+        .text {
+            position: absolute;
+            right: 0%;
+            left: 36.59%;
+            width: 63.41%;
+            bottom: 0%;
+            top: 0%;
+            height: 100%;
+        }
+
+        .title {
+            height: auto;
+            position: absolute;
+            right: 8.96%;
+            left: 0%;
+            width: 91.04%;
+            bottom: 27.43%;
+            top: 35.42%;
+            height: 37.15%;
+            overflow: visible;
+        }
+
+        ._2023-now-gg-all-rights-reserved {
+            color: var(--translucent-white-40, rgba(255, 255, 255, 0.4));
+            text-align: right;
+            font: 400 14px/150% "Bricolage Grotesque", sans-serif;
+            position: relative;
+            width: 630px;
+            height: 21px;
+            transform-origin: 0 0;
+            transform: rotate(0deg) scale(1, 1);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .divider {
+            border-style: solid;
+            border-color: var(--translucent-white-10, rgba(255, 255, 255, 0.1));
+            border-width: 1px 0 0 0;
+            flex-shrink: 0;
+            height: 0px;
+            position: absolute;
+            right: 0px;
+            left: 0px;
+            top: 0px;
+            transform-origin: 0 0;
+            transform: rotate(0deg) scale(1, 1);
+        }
+
+        .error-page-content {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            align-items: center;
+            justify-content: flex-start;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .cloudy {
+            flex-shrink: 0;
+            width: 180px;
+            height: 180px;
+            position: relative;
+        }
+
+        .logo-art2 {
+            position: absolute;
+            right: 0%;
+            left: 0%;
+            width: 100%;
+            bottom: 0%;
+            top: 0%;
+            height: 100%;
+        }
+
+        .shape2 {
+            height: auto;
+            position: absolute;
+            left: 0px;
+            top: 24.34px;
+            overflow: visible;
+        }
+
+        .union {
+            width: 17px;
+            height: 17px;
+            position: absolute;
+            left: 101.78px;
+            top: 83px;
+            transform: translate(0px, 0px);
+            overflow: visible;
+        }
+
+        .union2 {
+            width: 17px;
+            height: 17px;
+            position: absolute;
+            left: 60.22px;
+            top: 83px;
+            transform: translate(0px, 0px);
+            overflow: visible;
+        }
+
+        .text2 {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-start;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .title2 {
+            color: var(--white, #ffffff);
+            text-align: center;
+            font-weight: 500;
+            font: var(--title-xl-medium, 600 24px/150% "Bricolage Grotesque", sans-serif);
+            position: relative;
+            align-self: stretch;
+            transform-origin: 0 0;
+            transform: rotate(0deg) scale(1, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .description {
+            color: var(--text-body, rgba(255, 255, 255, 0.7));
+            text-align: center;
+            font: var(--body-l-regular, 400 16px/150% "Bricolage Grotesque", sans-serif);
+            position: relative;
+            align-self: stretch;
+            transform-origin: 0 0;
+            transform: rotate(0deg) scale(1, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-cta {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            align-items: center;
+            justify-content: center;
+            align-self: stretch;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .button {
+            display: flex;
+            flex-direction: row;
+            gap: 0px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .properties {
+            padding: 9.5px 24px 9.5px 24px;
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            color: var(--neutral-white, #ffffff);
+            text-align: center;
+            font-weight: 500;
+            font: var(--title-s-semibold, 600 14px/150% "Bricolage Grotesque", sans-serif);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--button-bg, #ff42a5);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .properties:hover {
+            background-color: #ff1e94;
+        }
+
+        .contact {
+            text-align: center;
+            font: var(--body-s-regular, 400 12px/150% "Bricolage Grotesque", sans-serif);
+            position: relative;
+            align-self: stretch;
+            transform-origin: 0 0;
+            transform: rotate(0deg) scale(1, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-span {
+            color: var(--translucents-light-40, rgba(255, 255, 255, 0.4));
+            font: var(--body-s-regular, 400 14px/150% "Bricolage Grotesque", sans-serif);
+        }
+
+        .contact-span2 {
+            cursor: pointer;
+            color: var(--translucents-light-70, rgba(255, 255, 255, 0.7));
+            font: var(--body-s-regular, 400 14px/150% "Bricolage Grotesque", sans-serif);
+        }
+
+        .contact-span2:hover {
+            text-decoration: underline;
+        }
+
+        .label {
+            display: flex;
+        }
+
+        .logo-bg {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            filter: blur(104px);
+            width: 61vw;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        @media screen and (max-width: 680px) {
+            .footer-information-bar {
+                padding: 0 20px;
+            }
+
+            .footer-cta {
+                gap: 20px;
+            }
+        }
+
+
+        @media only screen and (max-height: 575.98px) and (orientation: landscape) {
+            .content {
+                flex-direction: row;
+                margin-top: 50px;
+            }
+
+            .cloudy {
+                width: 120px;
+                height: 120px;
+            }
+
+            .union,
+            .union2 {
+                top: 70px;
+            }
+
+            .union {
+                left: 35px;
+            }
+
+            .union2 {
+                left: 65px;
+            }
+
+            .title2 {
+                justify-content: flex-start;
+            }
+
+            .cloudy svg {
+                max-width: 100%;
+            }
+        }
+    </style>
+    <title>Something went wrong | now.gg</title>
+</head>
+
+<body>
+    <div class="body">
+        <div class="footer-information-bar">
+            <div class="full-logo">
+                <div class="full-logo2">
+                    <div class="logo-art">
+                        <svg class="shape" width="30" height="21" viewBox="0 0 30 21" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7.25959 5.65137C3.18821 6 0 9.29078 0 13.2958C0 17.539 3.56797 20.9743 7.97495 20.9743H14.6428C14.6517 20.9743 14.6517 20.9743 14.6605 20.9743C10.2623 20.9658 6.7032 17.5305 6.7032 13.2958V8.46596C6.7032 7.47107 6.89749 6.5187 7.25959 5.65137Z"
+                                fill="#FF42A5" />
+                            <path
+                                d="M22.0698 5.65137C22.4319 6.52721 22.6262 7.47958 22.6262 8.47446V13.3043C22.6262 17.539 19.0671 20.9743 14.6689 20.9828C14.6778 20.9828 14.6778 20.9828 14.6866 20.9828H21.3545C25.7615 20.9828 29.3294 17.5475 29.3294 13.3043C29.3294 9.29078 26.1412 6 22.0698 5.65137Z"
+                                fill="#B3D661" />
+                            <path
+                                d="M14.6432 20.9739C14.6343 20.9739 14.6343 20.9739 14.6255 20.9739C14.6343 20.9739 14.6432 20.9739 14.6432 20.9739C14.652 20.9739 14.652 20.9739 14.6608 20.9739C14.6608 20.9739 14.652 20.9739 14.6432 20.9739ZM14.6432 0.787109C11.2695 0.787109 8.39038 2.80239 7.22461 5.651C7.46306 5.63399 7.70152 5.61698 7.93997 5.61698H14.6078C14.6167 5.61698 14.6343 5.61698 14.6432 5.61698C14.652 5.61698 14.6697 5.61698 14.6785 5.61698H21.3464C21.5848 5.61698 21.8321 5.62549 22.0617 5.651C20.9048 2.80239 18.0168 0.787109 14.6432 0.787109Z"
+                                fill="#51A5C9" />
+                            <path
+                                d="M14.6164 5.61719H7.93972C7.70127 5.61719 7.45398 5.62569 7.22436 5.6512C6.86226 6.52704 6.66797 7.47941 6.66797 8.4743V13.3042C6.66797 17.5388 10.2271 20.9741 14.6253 20.9827C14.6341 20.9827 14.6341 20.9827 14.6429 20.9827C10.2536 20.9656 6.7033 17.5303 6.7033 13.3042C6.7033 9.06953 10.2536 5.6427 14.6429 5.62569C14.6341 5.61719 14.6253 5.61719 14.6164 5.61719Z"
+                                fill="#4C4789" />
+                            <path
+                                d="M21.3546 5.61719H14.6867C14.6779 5.61719 14.6602 5.61719 14.6514 5.61719C19.0407 5.63419 22.591 9.06953 22.591 13.2957C22.591 17.5303 19.0407 20.9571 14.6514 20.9741C14.6602 20.9741 14.6602 20.9741 14.669 20.9741C19.0672 20.9656 22.6263 17.5303 22.6263 13.2957V8.46579C22.6263 7.47091 22.432 6.51854 22.0699 5.6427C21.8315 5.62569 21.593 5.61719 21.3546 5.61719Z"
+                                fill="#398B4D" />
+                            <path
+                                d="M14.6428 5.61719C10.2534 5.63419 6.70312 9.06953 6.70312 13.2957C6.70312 17.5303 10.2534 20.9571 14.6428 20.9741C19.0321 20.9571 22.5824 17.5218 22.5824 13.2957C22.5912 9.06953 19.0321 5.63419 14.6428 5.61719Z"
+                                fill="#0B0223" />
+                            <path
+                                d="M14.6605 20.9741C19.0649 20.9741 22.6354 17.5364 22.6354 13.2957C22.6354 9.05496 19.0649 5.61719 14.6605 5.61719C10.2561 5.61719 6.68555 9.05496 6.68555 13.2957C6.68555 17.5364 10.2561 20.9741 14.6605 20.9741Z"
+                                fill="#0B0223" />
+                            <path
+                                d="M12.6911 12.8365C12.6911 13.5168 12.117 14.0695 11.4105 14.0695C10.7039 14.0695 10.1299 13.5168 10.1299 12.8365C10.1299 12.1562 10.7039 11.6035 11.4105 11.6035C12.117 11.6035 12.6911 12.1562 12.6911 12.8365Z"
+                                fill="white" />
+                            <path
+                                d="M19.0759 13.5171H17.1329C16.7885 13.5171 16.5059 13.245 16.5059 12.9133V12.7688C16.5059 12.4371 16.7885 12.165 17.1329 12.165H19.0759C19.4203 12.165 19.7029 12.4371 19.7029 12.7688V12.9133C19.7029 13.245 19.4203 13.5171 19.0759 13.5171Z"
+                                fill="white" />
+                            <path
+                                d="M12.7086 12.8531C12.7086 13.5334 12.1346 14.0861 11.428 14.0861C10.7215 14.0861 10.1475 13.5334 10.1475 12.8531C10.1475 12.1728 10.7215 11.6201 11.428 11.6201C12.1346 11.6201 12.7086 12.1728 12.7086 12.8531Z"
+                                fill="white" />
+                            <path
+                                d="M19.0846 13.5337H17.1417C16.7973 13.5337 16.5146 13.2616 16.5146 12.9299V12.7854C16.5146 12.4537 16.7973 12.1816 17.1417 12.1816H19.0846C19.4291 12.1816 19.7117 12.4537 19.7117 12.7854V12.9299C19.7117 13.2616 19.4379 13.5337 19.0846 13.5337Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div class="text">
+                        <svg class="title" width="59" height="12" viewBox="0 0 59 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.69722 1.88736C10.3804 2.53423 10.7219 3.50919 10.7219 4.81222V9.78309H6.95836V5.43258C6.95836 4.43708 6.58624 3.93933 5.84199 3.93933C5.64926 3.93216 5.45728 3.9661 5.28002 4.03867C5.10275 4.11125 4.94467 4.22063 4.81726 4.35888C4.55761 4.64122 4.42778 5.08396 4.42778 5.68709V9.77514H0.662109V1.07611H4.24241V1.93508C4.59022 1.60211 5.00845 1.34384 5.46917 1.17752C5.95406 1.00494 6.46797 0.918677 6.98544 0.923007C8.11014 0.91903 9.01407 1.24048 9.69722 1.88736Z"
+                                fill="white" />
+                            <path
+                                d="M12.863 9.35359C12.0891 8.99165 11.4347 8.433 10.9718 7.73905C10.512 7.04204 10.2746 6.23233 10.2887 5.40871C10.2749 4.58575 10.5123 3.77674 10.9718 3.08035C11.4357 2.39309 12.0904 1.84239 12.863 1.48967C13.7194 1.11238 14.6514 0.916992 15.5946 0.916992C16.5378 0.916992 17.4697 1.11238 18.3261 1.48967C19.0942 1.84253 19.7435 2.39353 20.2006 3.08035C20.6586 3.78026 20.8951 4.59153 20.8817 5.41666C20.894 6.23647 20.6598 7.04246 20.2069 7.73905C19.7496 8.42968 19.1007 8.9858 18.3324 9.34564C17.4775 9.72806 16.5449 9.92629 15.6008 9.92629C14.6567 9.92629 13.7242 9.72806 12.8692 9.34564L12.863 9.35359ZM16.6516 6.68125C16.9487 6.323 17.097 5.87276 17.0681 5.41666C17.0982 4.96347 16.9496 4.51595 16.6516 4.16201C16.5152 4.02232 16.3501 3.91093 16.1666 3.83476C15.9832 3.7586 15.7852 3.71929 15.5852 3.71929C15.3851 3.71929 15.1872 3.7586 15.0038 3.83476C14.8203 3.91093 14.6552 4.02232 14.5188 4.16201C14.2208 4.51595 14.0722 4.96347 14.1022 5.41666C14.0734 5.87276 14.2217 6.323 14.5188 6.68125C14.6534 6.82391 14.8178 6.93797 15.0015 7.01605C15.1853 7.09413 15.3841 7.13447 15.5852 7.13447C15.7863 7.13447 15.9851 7.09413 16.1688 7.01605C16.3525 6.93797 16.517 6.82391 16.6516 6.68125Z"
+                                fill="white" />
+                            <path
+                                d="M35.7401 1.07617V5.87804C35.7401 7.17311 35.3291 8.17259 34.5071 8.87647C33.6851 9.58034 32.5354 9.93029 31.058 9.92632C30.4886 9.93318 29.9216 9.85536 29.3772 9.69567C28.8848 9.5471 28.4384 9.28484 28.0776 8.93214C27.7142 9.28365 27.2689 9.54802 26.7779 9.70362C26.2335 9.86224 25.6662 9.9374 25.0971 9.92632C23.6072 9.92632 22.4548 9.57637 21.6397 8.87647C20.8247 8.17657 20.4164 7.17444 20.415 5.87008V1.07617H24.1807V5.63943C24.1807 6.59384 24.5133 7.07105 25.1784 7.07105C25.8435 7.07105 26.1823 6.59384 26.1948 5.63943V1.07617H29.9604V5.63943C29.9604 6.59384 30.2985 7.07105 30.9747 7.07105C31.1197 7.08287 31.2655 7.05912 31.3982 7.00205C31.5309 6.94498 31.6461 6.85648 31.7329 6.74496C31.8953 6.52226 31.9745 6.14845 31.9745 5.64739V1.07617H35.7401Z"
+                                fill="white" />
+                            <path
+                                d="M37.2336 9.36523C37.0983 9.23849 36.9916 9.08669 36.92 8.91915C36.8483 8.75161 36.8133 8.57187 36.8171 8.39094C36.8112 8.21093 36.8452 8.03177 36.917 7.86522C36.9888 7.69867 37.0967 7.54851 37.2336 7.4246C37.5093 7.18652 37.8678 7.05469 38.2396 7.05469C38.6114 7.05469 38.9699 7.18652 39.2456 7.4246C39.3829 7.5482 39.4911 7.6983 39.5629 7.86493C39.6348 8.03155 39.6686 8.21087 39.6621 8.39094C39.6664 8.57193 39.6316 8.75181 39.5599 8.91942C39.4883 9.08703 39.3813 9.23878 39.2456 9.36523C38.9762 9.61521 38.6153 9.75505 38.2396 9.75505C37.8639 9.75505 37.503 9.61521 37.2336 9.36523Z"
+                                fill="#FF42A5" />
+                            <path
+                                d="M49.1848 1.02847V7.26195C49.1848 8.64054 48.8106 9.66122 48.0622 10.324C47.3138 10.9868 46.221 11.3182 44.7839 11.3182C44.0558 11.3241 43.3301 11.2372 42.6261 11.0597C42.0149 10.9155 41.4404 10.6551 40.937 10.2942L41.8409 8.73333C42.2126 9.01325 42.6367 9.22311 43.0906 9.3517C43.5805 9.50267 44.092 9.58047 44.6068 9.58235C45.3941 9.58235 45.9752 9.41135 46.348 9.07333C46.7209 8.73531 46.9166 8.2263 46.9166 7.54032V7.22019C46.3224 7.84321 45.4962 8.15405 44.4381 8.15273C43.7508 8.15993 43.0724 8.00416 42.4637 7.69938C41.8767 7.40783 41.3852 6.96754 41.0432 6.42684C40.6864 5.85583 40.5045 5.20069 40.5183 4.53592C40.5042 3.87049 40.6861 3.21464 41.0432 2.64301C41.385 2.10505 41.8749 1.66695 42.4595 1.37643C43.0682 1.07166 43.7467 0.915891 44.434 0.92309C45.5712 0.92309 46.4362 1.28033 47.0291 1.99481V1.02847H49.1848ZM46.3647 5.86414C46.5556 5.6956 46.706 5.48962 46.8055 5.26035C46.9051 5.03108 46.9516 4.78394 46.9416 4.53592C46.9516 4.2876 46.9052 4.04017 46.8056 3.81057C46.706 3.58097 46.5556 3.37464 46.3647 3.20572C45.9593 2.85998 45.4291 2.67817 44.8859 2.69869C44.3404 2.67922 43.808 2.86075 43.3988 3.20572C43.2067 3.37401 43.055 3.58009 42.9544 3.80973C42.8537 4.03938 42.8064 4.28713 42.8156 4.53592C42.8064 4.78441 42.8537 5.03187 42.9544 5.26119C43.0551 5.49051 43.2067 5.69623 43.3988 5.86414C43.808 6.2091 44.3404 6.39064 44.8859 6.37117C45.4291 6.39168 45.9593 6.20987 46.3647 5.86414Z"
+                                fill="#FF42A5" />
+                            <path
+                                d="M58.5138 1.02858V7.26205C58.5138 8.63401 58.1396 9.65404 57.3912 10.3221C56.6428 10.9902 55.5493 11.3216 54.1108 11.3163C53.3831 11.3203 52.6581 11.2313 51.9551 11.0518C51.3433 10.9076 50.7681 10.6473 50.2639 10.2863L51.1679 8.73343C51.5395 9.01352 51.9636 9.22339 52.4175 9.35181C52.9067 9.50289 53.4175 9.58069 53.9317 9.58246C54.719 9.58246 55.3001 9.41146 55.675 9.07344C56.0499 8.73542 56.2353 8.22243 56.2353 7.53645V7.2203C55.6424 7.84331 54.8162 8.15416 53.7568 8.15283C53.0694 8.16003 52.391 8.00426 51.7823 7.69949C51.1953 7.40794 50.7039 6.96765 50.3618 6.42695C50.0035 5.85635 49.8202 5.20118 49.8328 4.53603C49.8187 3.87059 50.0005 3.21475 50.3577 2.64312C50.6997 2.10242 51.1912 1.66212 51.7781 1.37057C52.3868 1.0658 53.0653 0.910032 53.7526 0.917231C54.8898 0.917231 55.7548 1.27447 56.3477 1.98895V1.02858H58.5138ZM55.6937 5.86424C55.884 5.69536 56.0339 5.48927 56.1331 5.26005C56.2323 5.03082 56.2785 4.78386 56.2686 4.53603C56.2784 4.28791 56.2321 4.04068 56.1329 3.81115C56.0337 3.58162 55.884 3.37517 55.6937 3.20582C55.2758 2.87817 54.7516 2.69908 54.2108 2.69908C53.67 2.69908 53.1459 2.87817 52.7279 3.20582C52.5353 3.37379 52.3833 3.5798 52.2826 3.80952C52.1819 4.03925 52.1348 4.28717 52.1447 4.53603C52.1348 4.78459 52.1819 5.0322 52.2827 5.26161C52.3834 5.49101 52.5353 5.69667 52.7279 5.86424C53.1459 6.19189 53.67 6.37099 54.2108 6.37099C54.7516 6.37099 55.2758 6.19189 55.6937 5.86424Z"
+                                fill="#FF42A5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="_2023-now-gg-all-rights-reserved">
+                © 2023 now.gg. All rights reserved.
+            </div>
+            <div class="divider"></div>
+        </div>
+        <svg class="shape2 logo-bg" width="181" height="131" viewBox="0 0 181 131" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M44.5973 31.6104C19.6108 33.8516 0.0444336 55.0066 0.0444336 80.7534C0.0444336 108.031 21.9415 130.115 48.9875 130.115H89.9089C89.9631 130.115 89.9631 130.115 90.0173 130.115C63.0255 130.06 41.1826 107.976 41.1826 80.7534V49.7042C41.1826 43.3085 42.3751 37.1861 44.5973 31.6104Z"
+                fill="#FF42A5" />
+            <path
+                d="M135.492 31.6104C137.714 37.2408 138.906 43.3631 138.906 49.7588V80.808C138.906 108.031 117.064 130.115 90.0718 130.17C90.126 130.17 90.126 130.17 90.1802 130.17H131.102C158.148 130.17 180.045 108.085 180.045 80.808C180.045 55.0066 160.478 33.8516 135.492 31.6104Z"
+                fill="#B3D661" />
+            <path
+                d="M89.9088 130.115C89.8546 130.115 89.8546 130.115 89.8004 130.115C89.8546 130.115 89.9088 130.115 89.9088 130.115C89.963 130.115 89.963 130.115 90.0172 130.115C90.0172 130.115 89.963 130.115 89.9088 130.115ZM89.9088 0.342773C69.2042 0.342773 51.5348 13.2982 44.3804 31.6106C45.8438 31.5013 47.3072 31.392 48.7706 31.392H89.692C89.7462 31.392 89.8546 31.392 89.9088 31.392C89.963 31.392 90.0714 31.392 90.1256 31.392H131.047C132.51 31.392 134.028 31.4466 135.437 31.6106C128.337 13.2982 110.613 0.342773 89.9088 0.342773Z"
+                fill="#51A5C9" />
+            <path
+                d="M89.7463 31.3916H48.7707C47.3073 31.3916 45.7897 31.4463 44.3805 31.6103C42.1582 37.2407 40.9658 43.363 40.9658 49.7587V80.8079C40.9658 108.031 62.8086 130.115 89.8005 130.17C89.8547 130.17 89.8547 130.17 89.9089 130.17C62.9712 130.06 41.1826 107.976 41.1826 80.8079C41.1826 53.5852 62.9712 31.5556 89.9089 31.4463C89.8547 31.3916 89.8005 31.3916 89.7463 31.3916Z"
+                fill="#4C4789" />
+            <path
+                d="M131.101 31.3916H90.1797C90.1255 31.3916 90.0171 31.3916 89.9629 31.3916C116.901 31.5009 138.689 53.5852 138.689 80.7533C138.689 107.976 116.901 130.006 89.9629 130.115C90.0171 130.115 90.0171 130.115 90.0713 130.115C117.063 130.06 138.906 107.976 138.906 80.7533V49.7041C138.906 43.3084 137.714 37.186 135.491 31.5556C134.028 31.4463 132.565 31.3916 131.101 31.3916Z"
+                fill="#398B4D" />
+            <path
+                d="M89.9089 31.3916C62.9712 31.5009 41.1826 53.5852 41.1826 80.7533C41.1826 107.976 62.9712 130.006 89.9089 130.115C116.847 130.006 138.635 107.921 138.635 80.7533C138.689 53.5852 116.847 31.5009 89.9089 31.3916Z"
+                fill="#0B0223" />
+            <path
+                d="M90.0173 130.115C117.048 130.115 138.96 108.015 138.96 80.7533C138.96 53.4916 117.048 31.3916 90.0173 31.3916C62.9868 31.3916 41.0742 53.4916 41.0742 80.7533C41.0742 108.015 62.9868 130.115 90.0173 130.115Z"
+                fill="#0B0223" />
+        </svg>
+        <div class="error-page-content">
+            <div class="content">
+                <div class="cloudy">
+                    <div class="logo-art2">
+                        <svg class="shape2" width="181" height="131" viewBox="0 0 181 131" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M44.5973 31.6104C19.6108 33.8516 0.0444336 55.0066 0.0444336 80.7534C0.0444336 108.031 21.9415 130.115 48.9875 130.115H89.9089C89.9631 130.115 89.9631 130.115 90.0173 130.115C63.0255 130.06 41.1826 107.976 41.1826 80.7534V49.7042C41.1826 43.3085 42.3751 37.1861 44.5973 31.6104Z"
+                                fill="#FF42A5" />
+                            <path
+                                d="M135.492 31.6104C137.714 37.2408 138.906 43.3631 138.906 49.7588V80.808C138.906 108.031 117.064 130.115 90.0718 130.17C90.126 130.17 90.126 130.17 90.1802 130.17H131.102C158.148 130.17 180.045 108.085 180.045 80.808C180.045 55.0066 160.478 33.8516 135.492 31.6104Z"
+                                fill="#B3D661" />
+                            <path
+                                d="M89.9088 130.115C89.8546 130.115 89.8546 130.115 89.8004 130.115C89.8546 130.115 89.9088 130.115 89.9088 130.115C89.963 130.115 89.963 130.115 90.0172 130.115C90.0172 130.115 89.963 130.115 89.9088 130.115ZM89.9088 0.342773C69.2042 0.342773 51.5348 13.2982 44.3804 31.6106C45.8438 31.5013 47.3072 31.392 48.7706 31.392H89.692C89.7462 31.392 89.8546 31.392 89.9088 31.392C89.963 31.392 90.0714 31.392 90.1256 31.392H131.047C132.51 31.392 134.028 31.4466 135.437 31.6106C128.337 13.2982 110.613 0.342773 89.9088 0.342773Z"
+                                fill="#51A5C9" />
+                            <path
+                                d="M89.7463 31.3916H48.7707C47.3073 31.3916 45.7897 31.4463 44.3805 31.6103C42.1582 37.2407 40.9658 43.363 40.9658 49.7587V80.8079C40.9658 108.031 62.8086 130.115 89.8005 130.17C89.8547 130.17 89.8547 130.17 89.9089 130.17C62.9712 130.06 41.1826 107.976 41.1826 80.8079C41.1826 53.5852 62.9712 31.5556 89.9089 31.4463C89.8547 31.3916 89.8005 31.3916 89.7463 31.3916Z"
+                                fill="#4C4789" />
+                            <path
+                                d="M131.101 31.3916H90.1797C90.1255 31.3916 90.0171 31.3916 89.9629 31.3916C116.901 31.5009 138.689 53.5852 138.689 80.7533C138.689 107.976 116.901 130.006 89.9629 130.115C90.0171 130.115 90.0171 130.115 90.0713 130.115C117.063 130.06 138.906 107.976 138.906 80.7533V49.7041C138.906 43.3084 137.714 37.186 135.491 31.5556C134.028 31.4463 132.565 31.3916 131.101 31.3916Z"
+                                fill="#398B4D" />
+                            <path
+                                d="M89.9089 31.3916C62.9712 31.5009 41.1826 53.5852 41.1826 80.7533C41.1826 107.976 62.9712 130.006 89.9089 130.115C116.847 130.006 138.635 107.921 138.635 80.7533C138.689 53.5852 116.847 31.5009 89.9089 31.3916Z"
+                                fill="#0B0223" />
+                            <path
+                                d="M90.0173 130.115C117.048 130.115 138.96 108.015 138.96 80.7533C138.96 53.4916 117.048 31.3916 90.0173 31.3916C62.9868 31.3916 41.0742 53.4916 41.0742 80.7533C41.0742 108.015 62.9868 130.115 90.0173 130.115Z"
+                                fill="#0B0223" />
+                        </svg>
+                    </div>
+                    <svg class="union" width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M1.85349 1.03122C0.478524 2.40617 0.478526 4.63542 1.85349 6.01038L4.34309 8.49997L1.85351 10.9895C0.478543 12.3645 0.478542 14.5937 1.85351 15.9687C3.22847 17.3437 5.45773 17.3437 6.83269 15.9687L9.32228 13.4791L11.8119 15.9687C13.1868 17.3436 15.4161 17.3436 16.791 15.9687C18.166 14.5937 18.166 12.3645 16.791 10.9895L14.3015 8.49997L16.7911 6.01039C18.166 4.63543 18.166 2.40619 16.7911 1.03123C15.4161 -0.343727 13.1868 -0.343725 11.8119 1.03123L9.32228 3.52081L6.83267 1.03122C5.45771 -0.343739 3.22845 -0.343739 1.85349 1.03122Z"
+                            fill="white" />
+                    </svg>
+
+                    <svg class="union2" width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M1.29782 1.03122C-0.0771405 2.40617 -0.0771381 4.63542 1.29783 6.01038L3.78743 8.49997L1.29784 10.9895C-0.0771214 12.3645 -0.0771219 14.5937 1.29784 15.9687C2.67281 17.3437 4.90206 17.3437 6.27703 15.9687L8.76661 13.4791L11.2562 15.9687C12.6312 17.3436 14.8604 17.3436 16.2354 15.9687C17.6103 14.5937 17.6103 12.3645 16.2354 10.9895L13.7458 8.49997L16.2354 6.01039C17.6103 4.63543 17.6103 2.40619 16.2354 1.03123C14.8604 -0.343727 12.6312 -0.343725 11.2562 1.03123L8.76661 3.52081L6.27701 1.03122C4.90204 -0.343739 2.67279 -0.343739 1.29782 1.03122Z"
+                            fill="white" />
+                    </svg>
+                </div>
+                <div class="text2">
+                    <div class="title2">Something went wrong</div>
+                    <div class="description">
+                        Seems we've hit a snag connecting you. Not to worry, give it a moment then let's refresh.
+                    </div>
+                </div>
+            </div>
+            <div class="footer-cta">
+                <div class="button">
+                    <div class="properties">
+                        <div class="label" id="refresh">Refresh now
+                            <span class="loader"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact">
+                    <span><span class="contact-span">If you need more help, write to us at: </span><a
+                            href="mailto:support@now.gg?subject=now.gg not accesible" target="_blank"
+                            class="contact-span2">support@now.gg</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
